@@ -14,29 +14,39 @@ class AuthController {
         session_start();
         // Check if there's an error parameter in the query string
         $error = isset($_GET['error']) ? $_GET['error'] : '';
-    
+
         // Render the login page and pass the error message (if any)
         require_once __DIR__ . '/../Views/auth/login.php';  // Pass error to the view
     }
 
+    private function verifyPassword($password, $storedHash) {
+        // Prefer modern password hashes when available
+        if (password_get_info($storedHash)['algo'] !== null) {
+            return password_verify($password, $storedHash);
+        }
+
+        // Backward compatibility for legacy MD5-seeded users
+        return md5($password) === $storedHash;
+    }
+
     public function login() {
         session_start();  // Ensure session is started to access session variables
-        
+
         if (isset($_POST['username']) && isset($_POST['password'])) {
-            $username = $_POST['username'];
+            $username = trim($_POST['username']);
             $password = $_POST['password'];
-            
+
             // Validate user credentials
             $user = $this->userModel->getByUsername($username);  // Fetch user by username
-            
-            // Use MD5 hash verification for existing passwords in your DB
-            if ($user && md5($password) === $user['password_hash']) {
+
+            if ($user && $this->verifyPassword($password, $user['password_hash'])) {
                 // Correct password, set session variables
+                session_regenerate_id(true);
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['_role'] = $user['_role'];  // Set the session role
-                
+
                 // Redirect to the dashboard
-                header('Location: /BENKHELIFA_FAROUK_G1_IGE46/public/dashboard');  
+                header('Location: /BENKHELIFA_FAROUK_G1_IGE46/public/dashboard');
                 exit;
             } else {
                 // Invalid login, redirect back to login with error message
@@ -44,7 +54,7 @@ class AuthController {
                 exit;
             }
         }
-    }    
+    }
 
     public function logout() {
         session_start();
