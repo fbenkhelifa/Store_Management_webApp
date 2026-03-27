@@ -14,11 +14,22 @@ The main application source is located under:
 - `BENKHELIFA_FAROUK_G1_IGE46/config/` — configuration files
 - `BENKHELIFA_FAROUK_G1_IGE46/public/` — public entry/assets
 - `BENKHELIFA_FAROUK_G1_IGE46/routes/` — route definitions
+- `BENKHELIFA_FAROUK_G1_IGE46/README.md` — nested app setup guide
+
+## Quick Start
+
+1. Use XAMPP/WAMP/LAMP with PHP + MySQL.
+2. Ensure this project is served from your web root.
+3. Configure DB access in `BENKHELIFA_FAROUK_G1_IGE46/config/database.php`.
+4. Open:
+   - `http://localhost/BENKHELIFA_FAROUK_G1_IGE46/public/login`
 
 ## Notes
 
-- There is also a `readme.docx` inside the project folder.
-- For easier collaboration, keeping documentation in Markdown (`README.md`) is recommended.
+- A legacy `readme.docx` remains in the nested folder for archival purposes.
+- Authentication logic now supports both:
+  - legacy MD5 hashes (seeded users), and
+  - modern `password_hash` / `password_verify` for newer users.
 
 ## Suggested Future Rename
 
