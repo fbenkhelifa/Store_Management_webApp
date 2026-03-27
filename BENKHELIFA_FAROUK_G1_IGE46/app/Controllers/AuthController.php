@@ -21,7 +21,7 @@ class AuthController {
 
     private function verifyPassword($password, $storedHash) {
         // Prefer modern password hashes when available
-        if (password_get_info($storedHash)['algo'] !== null) {
+        if (password_get_info($storedHash)['algo'] !== 0) {
             return password_verify($password, $storedHash);
         }
 
