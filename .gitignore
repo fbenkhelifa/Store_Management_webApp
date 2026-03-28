@@ -1,12 +1,22 @@
-# PHP / Web
+# PHP / Web dependencies
 vendor/
 node_modules/
-.env
-*.log
 
-# Cache / temp
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Runtime / cache / temp
 cache/
 tmp/
+storage/
+*.log
+*.tmp
+
+# Database / local artifacts
+*.sqlite
+*.db
 
 # IDE
 .vscode/
