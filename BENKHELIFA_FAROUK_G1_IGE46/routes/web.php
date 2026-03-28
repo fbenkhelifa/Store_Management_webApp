@@ -43,9 +43,15 @@ $productController = new ProductController();
 $billController = new BillController();
 $userController = new UserController();
 
+function ensureSessionStarted() {
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+}
+
 // Helper function to check authentication and roles
 function checkAuth($requiredRole = null) {
-    session_start();  // Start the session before checking
+    ensureSessionStarted();
     if (!isset($_SESSION['_role'])) {
         header('Location: /BENKHELIFA_FAROUK_G1_IGE46/public/login');
         exit;
@@ -79,7 +85,7 @@ switch ($parsedUri) {
 
     // Dashboard route - protected for logged-in users
     case '/dashboard':
-        session_start();
+        ensureSessionStarted();
         if (isset($_SESSION['_role'])) {
             require_once __DIR__ . '/../app/Views/pages/dashboard.php';
         } else {
