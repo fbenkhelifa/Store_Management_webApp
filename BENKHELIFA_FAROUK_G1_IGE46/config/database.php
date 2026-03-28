@@ -100,23 +100,36 @@ class Database {
         // Insert initial users if the users table is empty
         $stmt = $this->conn->query("SELECT COUNT(*) FROM users");
         if ($stmt->fetchColumn() == 0) {
-            $this->conn->exec("INSERT INTO users (username, password_hash, _role) VALUES
-                ('admin', MD5('admin'), 'admin'),
-                ('user1', MD5('password1'), 'user'),
-                ('user2', MD5('password2'), 'user'),
-                ('user3', MD5('password3'), 'user'),
-                ('user4', MD5('password4'), 'user'),
-                ('user5', MD5('password5'), 'user'),
-                ('user6', MD5('password6'), 'user'),
-                ('user7', MD5('password7'), 'user'),
-                ('user8', MD5('password8'), 'user'),
-                ('user9', MD5('password9'), 'user'),
-                ('user10', MD5('password10'), 'user'),
-                ('user11', MD5('password11'), 'user'),
-                ('user12', MD5('password12'), 'user'),
-                ('user13', MD5('password13'), 'user'),
-                ('user14', MD5('password14'), 'user'),
-                ('user15', MD5('password15'), 'user')");
+            $seedUsers = [
+                ['admin', 'admin', 'admin'],
+                ['user1', 'password1', 'user'],
+                ['user2', 'password2', 'user'],
+                ['user3', 'password3', 'user'],
+                ['user4', 'password4', 'user'],
+                ['user5', 'password5', 'user'],
+                ['user6', 'password6', 'user'],
+                ['user7', 'password7', 'user'],
+                ['user8', 'password8', 'user'],
+                ['user9', 'password9', 'user'],
+                ['user10', 'password10', 'user'],
+                ['user11', 'password11', 'user'],
+                ['user12', 'password12', 'user'],
+                ['user13', 'password13', 'user'],
+                ['user14', 'password14', 'user'],
+                ['user15', 'password15', 'user'],
+            ];
+
+            $insertUser = $this->conn->prepare(
+                "INSERT INTO users (username, password_hash, _role) VALUES (:username, :password_hash, :role)"
+            );
+
+            foreach ($seedUsers as [$username, $plainPassword, $role]) {
+                $insertUser->execute([
+                    'username' => $username,
+                    'password_hash' => password_hash($plainPassword, PASSWORD_DEFAULT),
+                    'role' => $role,
+                ]);
+            }
         }
 
         // Insert initial products if the products table is empty
