@@ -27,9 +27,8 @@ The main application source is located under:
 ## Notes
 
 - A legacy `readme.docx` remains in the nested folder for archival purposes.
-- Authentication logic now supports both:
-  - legacy MD5 hashes (seeded users), and
-  - modern `password_hash` / `password_verify` for newer users.
+- Seeded users are now created with modern `password_hash` values.
+- Authentication keeps backward compatibility with existing legacy MD5 records if present.
 
 ## Suggested Future Rename
 
