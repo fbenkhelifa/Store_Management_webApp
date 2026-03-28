@@ -19,9 +19,9 @@ This folder contains the actual PHP application source.
 
 ## Default Seeded Accounts
 
-On first run, the app seeds default users (including `admin`).
+On first run, the app seeds default users (including `admin`) using secure `password_hash` values.
 
-> ⚠️ This project currently includes educational/demo seed data and a legacy MD5 format for seeded users. Newly created/updated users now use modern password hashing.
+> ⚠️ This project includes educational/demo seed data. Authentication also supports legacy MD5 records for backward compatibility when migrating older databases.
 
 ## Notes
 
